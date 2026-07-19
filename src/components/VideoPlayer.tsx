@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { Maximize, Minimize, ExternalLink, MonitorPlay } from 'lucide-react';
+import { Maximize, Minimize, ExternalLink, Play, AlertCircle } from 'lucide-react';
 
 interface VideoPlayerProps {
   embedUrl: string;
@@ -9,65 +9,33 @@ interface VideoPlayerProps {
 }
 
 /**
- * Smart Video Player Component
+ * Smart Video Player Component (Branding-Free & Streaming Optimized)
  * 
- * Supports multiple embed formats with full-screen capability:
+ * ── HOW TO SOLVE "MEDIA IS TOO BIG" & REMOVE BRANDING ───────────────
  * 
- * ── TELEGRAM EMBED FORMATS ──────────────────────────────────────────
+ * 1. Direct Stream / HTTP Stream Proxy (RECOMMENDED):
+ *    To bypass Telegram's 50MB browser widget limit and remove all sender/channel
+ *    names, route your Telegram files through an HTTP streaming proxy (like 
+ *    TG-File-Stream-Bot or your own backend) and pass the stream URL:
  * 
- * 1. Telegram Post Widget (Recommended - uses official widget script):
- *    "telegram:channelname/postid"
- *    Example: "telegram:mychannel/42"
- *    → Renders via <script src="telegram.org/js/telegram-widget.js">
- *    → Shows full Telegram post card with built-in video player
- *    → Fullscreen: use the browser fullscreen button we provide
+ *    {
+ *      "embedUrl": "https://your-proxy-domain.com/stream/file_id",
+ *      "externalPlayerUrl": "https://your-proxy-domain.com/stream/file_id"
+ *    }
+ *    → Automatically renders a clean, native HTML5 <video> player.
+ *    → Supports unlimited file sizes with zero Telegram logos or channel names.
  * 
- * 2. Telegram iframe embed (direct iframe):
- *    "https://t.me/channelname/postid?embed=1&mode=video"
- *    Example: "https://t.me/mychannel/42?embed=1&mode=video"
- *    → Embeds as iframe, supports allowfullscreen
- * 
- * ── STANDARD EMBED FORMATS ──────────────────────────────────────────
- * 
- * 3. YouTube:
- *    "https://www.youtube.com/embed/VIDEO_ID"
- * 
- * 4. Vimeo:
- *    "https://player.vimeo.com/video/VIDEO_ID"
- * 
- * 5. Any iframe-compatible URL:
- *    Any https URL → embedded as iframe
- * 
- * 6. Direct video file URL (.mp4, .webm, .ogg):
- *    "https://example.com/video.mp4"
- *    → Renders native <video> element with full controls
- * 
- * ── EXTERNAL PLAYER LINK ────────────────────────────────────────────
- * 
- * Set externalPlayerUrl to provide an "Open in External Player" button.
- * For Telegram videos use: "tg://resolve?domain=channelname&post=postid"
- * or the direct t.me link: "https://t.me/channelname/postid"
- * 
- * ── HOW TO ADD A TELEGRAM VIDEO ─────────────────────────────────────
- * 
- * In videos.json, set the fields like this:
- * 
- * {
- *   "embedUrl": "telegram:mychannel/123",
- *   "externalPlayerUrl": "https://t.me/mychannel/123"
- * }
- * 
- * OR for direct iframe embed:
- * 
- * {
- *   "embedUrl": "https://t.me/mychannel/123?embed=1&mode=video",
- *   "externalPlayerUrl": "https://t.me/mychannel/123"
- * }
+ * 2. Standard Embed Formats:
+ *    → YouTube: "https://www.youtube.com/embed/VIDEO_ID"
+ *    → Vimeo: "https://player.vimeo.com/video/VIDEO_ID"
+ *    → Direct Files: "https://example.com/video.mp4"
  */
 
-// Detect if URL is a direct video file
+// Detect if URL is a direct video file OR an HTTP stream proxy endpoint
 function isDirectVideo(url: string): boolean {
-  return /\.(mp4|webm|ogg|m3u8)(\?.*)?$/i.test(url);
+  // Matches file extensions (.mp4, .m3u8, etc.) OR stream proxy API paths (/stream/, /video/, /file/)
+  return /\.(mp4|webm|ogg|m3u8|mov|mkv)(\?.*)?$/i.test(url) || 
+         /\/(stream|video|file|download)\//i.test(url);
 }
 
 // Detect Telegram widget shorthand format: "telegram:channel/postid"
@@ -93,7 +61,9 @@ function normalizeTelegramUrl(url: string): string {
 export default function VideoPlayer({ embedUrl, externalPlayerUrl, title, onLoad }: VideoPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const telegramRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [streamError, setStreamError] = useState(false);
 
   // Listen for fullscreen changes
   useEffect(() => {
@@ -126,7 +96,7 @@ export default function VideoPlayer({ embedUrl, externalPlayerUrl, title, onLoad
     return () => document.removeEventListener('keydown', handler);
   }, [toggleFullscreen]);
 
-  // Handle Telegram widget script injection
+  // Handle Telegram widget script injection (Fallback only)
   const telegramWidget = parseTelegramWidget(embedUrl);
 
   useEffect(() => {
@@ -150,7 +120,47 @@ export default function VideoPlayer({ embedUrl, externalPlayerUrl, title, onLoad
     telegramRef.current.appendChild(script);
   }, [telegramWidget?.channel, telegramWidget?.postId]);
 
-  // ─── Render: Telegram Widget ───
+  // ─── Render: Direct Video Stream (RECOMMENDED FOR LARGE FILES & NO BRANDING) ───
+  if (isDirectVideo(embedUrl)) {
+    return (
+      <div ref={containerRef} className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
+        {!streamError ? (
+          <video
+            ref={videoRef}
+            src={embedUrl}
+            controls
+            controlsList="nodownload"
+            className="w-full h-full object-contain"
+            playsInline
+            preload="auto"
+            crossOrigin="anonymous"
+            onLoadedData={() => {
+              setStreamError(false);
+              onLoad?.();
+            }}
+            onError={() => setStreamError(true)}
+          >
+            Your browser does not support HTML5 video streaming.
+          </video>
+        ) : (
+          <div className="flex flex-col items-center justify-center p-6 text-center text-gray-300">
+            <AlertCircle className="w-12 h-12 text-red-500 mb-3 animate-pulse" />
+            <p className="text-lg font-semibold text-white">Stream Unavailable or Too Large</p>
+            <p className="text-sm text-gray-400 mt-1 max-w-md">
+              The direct streaming connection failed to load. Please verify your streaming proxy backend is running.
+            </p>
+          </div>
+        )}
+        <PlayerControls
+          isFullscreen={isFullscreen}
+          onToggleFullscreen={toggleFullscreen}
+          externalPlayerUrl={externalPlayerUrl}
+        />
+      </div>
+    );
+  }
+
+  // ─── Render: Telegram Widget (Legacy Fallback) ───
   if (telegramWidget) {
     return (
       <div ref={containerRef} className={`relative bg-black rounded-2xl overflow-hidden shadow-2xl ${isFullscreen ? 'flex items-center justify-center' : ''}`}>
@@ -163,55 +173,32 @@ export default function VideoPlayer({ embedUrl, externalPlayerUrl, title, onLoad
           isFullscreen={isFullscreen}
           onToggleFullscreen={toggleFullscreen}
           externalPlayerUrl={externalPlayerUrl}
-          telegramUrl={`https://t.me/${telegramWidget.channel}/${telegramWidget.postId}`}
         />
       </div>
     );
   }
 
-  // ─── Render: Direct Video File ───
-  if (isDirectVideo(embedUrl)) {
-    return (
-      <div ref={containerRef} className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
-        <video
-          src={embedUrl}
-          controls
-          controlsList="nodownload"
-          className="w-full h-full"
-          playsInline
-          preload="metadata"
-          onLoadedData={() => onLoad?.()}
-        >
-          Your browser does not support the video tag.
-        </video>
-        <PlayerControls
-          isFullscreen={isFullscreen}
-          onToggleFullscreen={toggleFullscreen}
-          externalPlayerUrl={externalPlayerUrl}
-        />
-      </div>
-    );
-  }
-
-  // ─── Render: Telegram iframe embed ───
+  // ─── Render: Telegram iframe embed (With CSS Clipping to hide Channel/Sender Header) ───
   if (isTelegramEmbed(embedUrl)) {
     const normalizedUrl = normalizeTelegramUrl(embedUrl);
     return (
       <div ref={containerRef} className={`relative bg-black rounded-2xl overflow-hidden shadow-2xl ${isFullscreen ? 'flex items-center justify-center h-full' : ''}`}>
-        <iframe
-          src={normalizedUrl}
-          title={title}
-          className={`w-full border-0 ${isFullscreen ? 'h-full max-w-5xl mx-auto' : 'min-h-[400px] md:min-h-[500px] lg:min-h-[600px]'}`}
-          allowFullScreen
-          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox"
-          onLoad={() => onLoad?.()}
-        />
+        {/* Wrapper applies negative top/bottom margins to clip out the Telegram channel & sender name header bar */}
+        <div className="w-full h-full overflow-hidden relative -top-10 -bottom-10 md:-top-12 md:-bottom-12">
+          <iframe
+            src={normalizedUrl}
+            title={title}
+            className={`w-full border-0 ${isFullscreen ? 'h-[calc(100%+5rem)] max-w-5xl mx-auto' : 'min-h-[450px] md:min-h-[560px] lg:min-h-[660px]'}`}
+            allowFullScreen
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox"
+            onLoad={() => onLoad?.()}
+          />
+        </div>
         <PlayerControls
           isFullscreen={isFullscreen}
           onToggleFullscreen={toggleFullscreen}
           externalPlayerUrl={externalPlayerUrl}
-          telegramUrl={embedUrl.split('?')[0]}
         />
       </div>
     );
@@ -238,17 +225,15 @@ export default function VideoPlayer({ embedUrl, externalPlayerUrl, title, onLoad
 }
 
 
-// ─── Floating Control Bar ───
+// ─── Floating Control Bar (Clean & Branding-Free) ───
 function PlayerControls({
   isFullscreen,
   onToggleFullscreen,
   externalPlayerUrl,
-  telegramUrl,
 }: {
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
   externalPlayerUrl?: string;
-  telegramUrl?: string;
 }) {
   const [visible, setVisible] = useState(true);
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -271,18 +256,8 @@ function PlayerControls({
       onMouseMove={showControls}
     >
       <div className="flex items-center gap-2">
-        {telegramUrl && (
-          <a
-            href={telegramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium transition-all backdrop-blur-sm"
-            title="Open in Telegram"
-          >
-            <MonitorPlay size={14} /> Open in Telegram
-          </a>
-        )}
-        {externalPlayerUrl && externalPlayerUrl !== telegramUrl && (
+        {/* Only show External Player button if it's explicitly provided, removing Telegram-specific references */}
+        {externalPlayerUrl && !externalPlayerUrl.includes('t.me') && !externalPlayerUrl.includes('tg://') && (
           <a
             href={externalPlayerUrl}
             target="_blank"
