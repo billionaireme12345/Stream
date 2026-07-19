@@ -1,0 +1,7 @@
+[
+  { "id": "stu_001", "name": "Vault Productions", "slug": "vault-productions", "logo": "", "description": "In-house production studio" },
+  { "id": "stu_002", "name": "Midnight Films", "slug": "midnight-films", "logo": "", "description": "Dark and atmospheric cinema" },
+  { "id": "stu_003", "name": "Bright Horizon", "slug": "bright-horizon", "logo": "", "description": "Family-friendly content studio" },
+  { "id": "stu_004", "name": "Urban Edge", "slug": "urban-edge", "logo": "", "description": "Edgy urban content" },
+  { "id": "stu_005", "name": "Creative Minds", "slug": "creative-minds", "logo": "", "description": "Innovative creative content" }
+]
