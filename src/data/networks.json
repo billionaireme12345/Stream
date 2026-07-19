@@ -1,0 +1,7 @@
+[
+  { "id": "net_001", "name": "StreamVault Originals", "slug": "streamvault-originals", "logo": "", "description": "Exclusive original content" },
+  { "id": "net_002", "name": "CinePlex Studios", "slug": "cineplex-studios", "logo": "", "description": "Premium cinema content" },
+  { "id": "net_003", "name": "IndieFlix", "slug": "indieflix", "logo": "", "description": "Independent film showcase" },
+  { "id": "net_004", "name": "DocuWorld", "slug": "docuworld", "logo": "", "description": "Documentary network" },
+  { "id": "net_005", "name": "ActionZone", "slug": "actionzone", "logo": "", "description": "Action and adventure network" }
+]

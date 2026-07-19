@@ -1,0 +1,74 @@
+[
+  {
+    "id": "act_001",
+    "name": "Marcus Sterling",
+    "slug": "marcus-sterling",
+    "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "biography": "Marcus Sterling is a versatile actor known for his commanding screen presence and ability to portray complex characters. With over 15 years of experience in film and television, he has become one of the most sought-after performers in the industry.",
+    "birthDate": "1985-03-15",
+    "nationality": "American",
+    "stats": { "totalVideos": 12, "totalViews": 2500000, "avgRating": 4.7 },
+    "tags": ["leading-man", "action-star", "dramatic-actor"],
+    "socialLinks": {}
+  },
+  {
+    "id": "act_002",
+    "name": "Elena Vasquez",
+    "slug": "elena-vasquez",
+    "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
+    "biography": "Elena Vasquez brings warmth and intensity to every role she takes on. A classically trained actress with roots in theater, she seamlessly transitions between genres, earning critical acclaim across her career.",
+    "birthDate": "1990-07-22",
+    "nationality": "Spanish",
+    "stats": { "totalVideos": 9, "totalViews": 1800000, "avgRating": 4.8 },
+    "tags": ["dramatic-actress", "versatile", "award-winning"],
+    "socialLinks": {}
+  },
+  {
+    "id": "act_003",
+    "name": "James Chen",
+    "slug": "james-chen",
+    "photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "biography": "James Chen is a dynamic actor and martial artist who combines physicality with emotional depth. His breakthrough performances in action thrillers have established him as a global icon.",
+    "birthDate": "1988-11-08",
+    "nationality": "Chinese-American",
+    "stats": { "totalVideos": 15, "totalViews": 3200000, "avgRating": 4.6 },
+    "tags": ["action-star", "martial-artist", "producer"],
+    "socialLinks": {}
+  },
+  {
+    "id": "act_004",
+    "name": "Sofia Laurent",
+    "slug": "sofia-laurent",
+    "photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+    "biography": "Sofia Laurent captivates audiences with her magnetic screen presence and nuanced performances. From indie dramas to blockbuster franchises, she brings authenticity to every character.",
+    "birthDate": "1992-04-30",
+    "nationality": "French",
+    "stats": { "totalVideos": 8, "totalViews": 1500000, "avgRating": 4.9 },
+    "tags": ["indie-darling", "fashion-icon", "dramatic-actress"],
+    "socialLinks": {}
+  },
+  {
+    "id": "act_005",
+    "name": "David Okafor",
+    "slug": "david-okafor",
+    "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "biography": "David Okafor is a powerhouse performer whose range spans from intense dramatic roles to lighthearted comedies. His charismatic presence and dedication to craft make him a standout in any production.",
+    "birthDate": "1987-09-12",
+    "nationality": "Nigerian-British",
+    "stats": { "totalVideos": 11, "totalViews": 2100000, "avgRating": 4.5 },
+    "tags": ["versatile", "comedic-actor", "dramatic-actor"],
+    "socialLinks": {}
+  },
+  {
+    "id": "act_006",
+    "name": "Aria Nakamura",
+    "slug": "aria-nakamura",
+    "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
+    "biography": "Aria Nakamura is known for her transformative performances and meticulous approach to character development. Her work in science fiction and fantasy genres has earned her a devoted global fanbase.",
+    "birthDate": "1993-01-25",
+    "nationality": "Japanese-American",
+    "stats": { "totalVideos": 7, "totalViews": 1200000, "avgRating": 4.8 },
+    "tags": ["sci-fi-star", "rising-talent", "versatile"],
+    "socialLinks": {}
+  }
+]

@@ -1,0 +1,14 @@
+[
+  { "id": "cat_001", "name": "Action", "slug": "action", "icon": "⚡", "color": "#ef4444", "description": "High-octane action sequences and thrilling adventures" },
+  { "id": "cat_002", "name": "Drama", "slug": "drama", "icon": "🎭", "color": "#8b5cf6", "description": "Compelling dramatic stories and character studies" },
+  { "id": "cat_003", "name": "Comedy", "slug": "comedy", "icon": "😂", "color": "#f59e0b", "description": "Laugh-out-loud comedies and humorous content" },
+  { "id": "cat_004", "name": "Thriller", "slug": "thriller", "icon": "🔍", "color": "#06b6d4", "description": "Suspenseful thrillers that keep you on edge" },
+  { "id": "cat_005", "name": "Sci-Fi", "slug": "sci-fi", "icon": "🚀", "color": "#3b82f6", "description": "Futuristic science fiction and space exploration" },
+  { "id": "cat_006", "name": "Romance", "slug": "romance", "icon": "❤️", "color": "#ec4899", "description": "Heartwarming romantic stories" },
+  { "id": "cat_007", "name": "Horror", "slug": "horror", "icon": "👻", "color": "#1e293b", "description": "Spine-chilling horror and supernatural tales" },
+  { "id": "cat_008", "name": "Documentary", "slug": "documentary", "icon": "📽️", "color": "#059669", "description": "Informative documentaries and real stories" },
+  { "id": "cat_009", "name": "Animation", "slug": "animation", "icon": "🎨", "color": "#d946ef", "description": "Animated features and short films" },
+  { "id": "cat_010", "name": "Mystery", "slug": "mystery", "icon": "🕵️", "color": "#78716c", "description": "Intriguing mysteries and detective stories" },
+  { "id": "cat_011", "name": "Adventure", "slug": "adventure", "icon": "🌍", "color": "#16a34a", "description": "Epic adventures and exploration" },
+  { "id": "cat_012", "name": "Fantasy", "slug": "fantasy", "icon": "🧙", "color": "#7c3aed", "description": "Magical fantasy worlds and mythical creatures" }
+]
